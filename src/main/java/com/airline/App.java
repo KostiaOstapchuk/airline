@@ -1,23 +1,84 @@
 package com.airline;
+import com.airline.commands.*;
+import com.airline.planes.*;
+import java.io.Console;
 
-import javax.print.attribute.standard.PageRanges;
+public class App {
+    private Airline airline;
+    private Command command;
+    private CommandHistory history = new CommandHistory();
+    private Console console = System.console();
 
-import com.Airline;
-import com.airline.Plane.*;
+    App(Airline airline) {
+        this.airline = airline;
+    }
 
-public class App 
-{
-    public static void main( String[] args )
-    {
-        Airline airline = new Airline("Airline");
-        airline.addPlane(new PassengerPlane(1, "Boeing 737", 150, 10000, 500, 1000));
-        airline.addPlane(new PassengerPlane(2, "Boeing 737", 150, 10000, 500, 1002));
-        airline.addPlane(new PassengerPlane(3, "Boeing 737", 150, 10000, 500, 1001));
-        airline.addPlane(new PassengerPlane(4, "Boeing 737", 150, 10000, 500, 1003));
-        airline.addPlane(new PassengerPlane(5, "Boeing 737", 150, 10000, 500, 999));
+    private final String[] mainOptions = {
+            "1. Add plane",
+            "2. Remove plane",
+            "3. Show planes",
+            "4. Sort planes",
+            "5. Calculate price",
+            "6. Exit"
+    };
 
+    public void showMenu(String[] options) {
+        for (String option : options) {
+            System.out.println(option);
+        }
+        System.out.println(' ');
+        if(!history.isEmpty()){
+            System.out.println("0. Undo last action\n");
+        }
+    }
 
-        airline.sortPlanesByRange();
-        System.out.println(airline.getPlanes());
+    public void run(){
+        while (true) {
+            showMenu(mainOptions);
+            int choice = Integer.parseInt(console.readLine());
+            switch (choice) {
+                case 0:
+                    undo();
+                    break;
+                case 1:
+                    executeCommand(new AddPlaneCommand(airline));
+                    break;
+                case 2:
+                    executeCommand(new RemovePlaneCommand(airline));
+                    break;
+                case 3:
+                    executeCommand(new ShowPlanesCommand(airline));
+                    break;
+                // case 4:
+                //     executeCommand(new ShowPlanesCommand(airline));
+                //     break;
+                case 5:
+                    executeCommand(new CalculatePriceCommand(airline));
+                    break;
+                case 6:
+                    System.exit(0);
+                    break;
+
+            }
+        }
+
+    }
+
+    private void executeCommand(Command command) {
+        if (command.execute()) {
+            history.push(command);
+        }
+    }
+
+    private void undo() {
+        if (history.isEmpty()) {
+            System.out.println("Nothing to undo");
+            return;
+        }
+
+        Command command = history.pop();
+        if (command != null) {
+            command.undo();
+        }
     }
 }

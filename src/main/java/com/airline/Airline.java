@@ -1,12 +1,11 @@
-package com;
-import com.airline.Plane.Plane;
+package com.airline;
+import com.airline.planes.*;
+import com.airline.commands.*;
 import java.util.ArrayList;
-import java.io.Console;
 
 public class Airline {
     private String name;
     private ArrayList<Plane> planes;
-    private Console console;
 
     public Airline(String name) {
         this.name = name;
@@ -44,4 +43,14 @@ public class Airline {
     public ArrayList<Plane> getPlanes() {
         return planes;
     }
+
+    public Plane getPlane(int id) {
+        for (Plane plane : planes) {
+            if (plane.getId() == id) {
+                return plane;
+            }
+        }
+        return null;
+    }
+
 }

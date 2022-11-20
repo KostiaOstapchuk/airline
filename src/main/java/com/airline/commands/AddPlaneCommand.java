@@ -14,26 +14,72 @@ public class AddPlaneCommand extends Command {
 
     @Override
     public boolean execute() {
-        int id = airline.getPlanes().size() + 1;
-        System.out.println("Plane model:");
-        String model = console.readLine();
-        System.out.println("Plane passenger capacity:");
-        int pc = Integer.parseInt(console.readLine());
-        System.out.println("Plane load capacity:");
-        int lc = Integer.parseInt(console.readLine());
-        System.out.println("Plane fuel consumption:");
-        int fc = Integer.parseInt(console.readLine());
-        System.out.println("Plane range:");
-        int range = Integer.parseInt(console.readLine());
-        System.out.println(' ');
-        
-        this.plane = new PassengerPlane(id, model, pc, lc, fc, range);
-        airline.addPlane(plane);
+        System.out.println("Enter plane type: ");
+        System.out.println("1. Airliner\n2. Cargo plane\n3. Private Jet");
+        int coice = Integer.parseInt(console.readLine());
+        System.out.println("Choose option: ");
+        System.out.println("1. Default plane\n2. Custom plane");
+        int option = Integer.parseInt(console.readLine());
+        switch(option){
+            case 1:
+                switch(coice){
+                    case 1:
+                        plane = new Airliner();
+                        break;
+                    case 2:
+                        plane = new CargoPlane();
+                        break;
+                    case 3:
+                        plane = new PrivateJet();
+                        break;
+                    default:
+                        System.out.println("Invalid choice");
+                        return false;
+                }
+                plane.setId(airline.getPlanes().size());
+                airline.addPlane(plane);
+                break;
+            case 2:
+                System.out.println("Enter plane model: ");
+                String model = console.readLine();
+                System.out.println("Enter load capacity: ");
+                int loadCapacity = Integer.parseInt(console.readLine());
+                System.out.println("Enter fuel consumption: ");
+                int fuelConsumption = Integer.parseInt(console.readLine());
+                System.out.println("Enter range: ");
+                int range = Integer.parseInt(console.readLine());
+                switch(coice){
+                    case 1:
+                        System.out.println("Enter passenger capacity: ");
+                        int passengerCapacity = Integer.parseInt(console.readLine());
+                        plane = new Airliner(airline.getPlanes().size(), model, passengerCapacity, loadCapacity, fuelConsumption, range);
+                        break;
+                    case 2:
+                        plane = new CargoPlane(airline.getPlanes().size(), model, loadCapacity, fuelConsumption, range);
+                        break;
+                    case 3:
+                        System.out.println("Enter speed: ");
+                        int speed = Integer.parseInt(console.readLine());
+                        plane = new PrivateJet(airline.getPlanes().size(), model, loadCapacity, fuelConsumption, range, speed);
+                        break;
+                    default:
+                        System.out.println("Invalid choice");
+                        return false;
+                }
+                airline.addPlane(plane);
+                break;
+            default:
+                System.out.println("Invalid choice");
+                return false;
+        }
+
+
         return true;
     }
 
     @Override
     public void undo(){
+        System.out.println("Plane:\n" + plane + "\nremoved\n");
         airline.removePlane(plane);
     }
 

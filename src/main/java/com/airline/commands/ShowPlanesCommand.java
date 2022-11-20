@@ -12,6 +12,10 @@ public class ShowPlanesCommand extends Command {
 
     @Override
     public boolean execute() {
+        if(airline.getPlanes().size() == 0){
+            System.out.println("\nNo planes to show\n");
+            return false;
+        }
         for (Plane plane : airline.getPlanes()) {
             System.out.println(plane);
         }
