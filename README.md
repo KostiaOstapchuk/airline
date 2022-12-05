@@ -1,5 +1,6 @@
 # README.md
 The program uses java.io.Console so it won't work in IDE
+
 Compile:
 ```
 javac @options @classes
