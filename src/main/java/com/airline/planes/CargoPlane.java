@@ -1,6 +1,7 @@
 package com.airline.planes;
 
 import java.io.Console;
+import com.airline.UserInput;
 
 public class CargoPlane extends Plane{
     private int packageWeight = 70;
@@ -25,35 +26,58 @@ public class CargoPlane extends Plane{
         return "Cargo";
     }
 
-    public float flightPrice() {
-        System.out.println("Enter travel distance: ");
-        int distance = Integer.parseInt(console.readLine());
-        if(distance > range){
-            System.out.println("This plane can't fly that far!");
-            return 0;
-        }
-        float price = 0;
-        System.out.println("Choose cargo type: ");
-        System.out.println("1. Package (up to 70 kg)\n2. Pallet (up to 250kg)\n3. Container (up to 2000kg)\n");
-        int choice = Integer.parseInt(console.readLine());
+    public UserInput takeUserInput(){
+        int distance;
+        int packages;
+        int pallets;
+        int containers;
+        int containerW = 0;
+        int containerTotalWeight = 0;
+        boolean validInput = true;
+        UserInput userInput = new UserInput();
+        int totalWeight = 0;
+        do{
+            validInput = true;
+            distance = Integer.parseInt(console.readLine("Enter the distance of the flight in km: "));
+            if(distance > range){
+                System.out.println("The distance entered is greater than the range of the plane. Please enter a valid distance.");
+                validInput = false;
+                continue;
+            } 
+            System.out.println("Maximum weight of cargo: " + loadCapacity + " kg");
+            packages = Integer.parseInt(console.readLine("Enter the amount of packages (up to " + packageWeight + "kg, 30$ per package, max: " + Math.floorDiv(loadCapacity, packageWeight) + "): "));
+            totalWeight += packages * packageWeight;
+            pallets = Integer.parseInt(console.readLine("Enter the amount of pallets (up to " + palletWeight + "kg, 230$ per pallet, " + Math.floorDiv(loadCapacity, palletWeight)  + "): "));
+            totalWeight += pallets * palletWeight;
+            containers = Integer.parseInt(console.readLine("Enter the amount of containers: "));
+            for(int i = 0; i < containers; i++){
+                containerW = Integer.parseInt(console.readLine("Enter the weight of container " + (i+1) + ": "));
+                if(containerW > containerWeight){
+                    System.out.println("The weight of container " + (i+1) + " is greater than the allowed weight of " + containerWeight + " kg. Please enter a valid weight.");
+                    i -= 1;
+                }
+                totalWeight += containerW;
+                containerTotalWeight += containerW;
+            }
+            if(totalWeight > loadCapacity){
+                System.out.println("The total weight of the cargo entered is greater than the planes load capacity (" + loadCapacity + " kg). Please enter a valid amount.");
+                validInput = false;
+                continue;
+            }
+            userInput.setDistance(distance);
+            userInput.setPackages(packages);
+            userInput.setPallets(pallets);
+            userInput.setContainerWeight(containerTotalWeight);
+        }while(!validInput);
+        return userInput;
+    }
 
-        switch(choice){
-            case 1:
-                System.out.println("Enter the amount of packages (up to " + Math.floorDiv(loadCapacity, packageWeight)  + "): ");
-                int packages = Integer.parseInt(console.readLine());
-                price += packages * 30;
-                break;
-            case 2:
-                System.out.println("Enter the amount of pallets (up to " + Math.floorDiv(loadCapacity, palletWeight)  + "): ");
-                int pallets = Integer.parseInt(console.readLine());
-                price += pallets * 230;
-                break;
-            case 3:
-                System.out.println("Enter the container weight (up to " + containerWeight + "): ");
-                int containerW = Integer.parseInt(console.readLine());
-                price += containerW * 0.6f + 0.86f * distance;
-                break;
-        }
+    public float flightPrice(UserInput userInput) {
+        float price = 0;
+
+        price += userInput.getPackages() * 30;
+        price += userInput.getPallets() * 230;
+        price += userInput.getContainerWeight() * 0.6f + fuelPrice * userInput.getDistance();
         System.out.println("Total price: " + price + "$");
         return price;
     }

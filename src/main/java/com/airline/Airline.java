@@ -2,6 +2,7 @@ package com.airline;
 import com.airline.planes.*;
 import com.airline.commands.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Airline {
     private String name;
@@ -40,8 +41,16 @@ public class Airline {
         planes.sort((Plane p1, Plane p2) -> p1.getRange() - p2.getRange());
     }
 
+    public void sortPlanesById(){
+        planes.sort((Plane p1, Plane p2) -> p1.getId() - p2.getId());
+    }
+
+    public void setPlanes(ArrayList<Plane> planes) {
+        this.planes = new ArrayList<>(planes);
+    }
+
     public ArrayList<Plane> getPlanes() {
-        return planes;
+        return new ArrayList<>(this.planes);
     }
 
     public Plane getPlane(int id) {

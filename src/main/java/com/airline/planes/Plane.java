@@ -1,4 +1,5 @@
 package com.airline.planes;
+import com.airline.UserInput;
 
 public abstract class Plane {
     protected int id;
@@ -33,7 +34,7 @@ public abstract class Plane {
         return loadCapacity;
     }
 
-    public int getfuelConsumption() {
+    public int getFuelConsumption() {
         return fuelConsumption;
     }
 
@@ -43,7 +44,8 @@ public abstract class Plane {
     
     public abstract int getPassengerCapacity();
     public abstract String getType();
-    public abstract float flightPrice();
+    public abstract UserInput takeUserInput();
+    public abstract float flightPrice(UserInput userInput);
 
     @Override
     public String toString() {

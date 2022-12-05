@@ -26,42 +26,53 @@ public class App {
         for (String option : options) {
             System.out.println(option);
         }
-        System.out.println(' ');
         if(!history.isEmpty()){
-            System.out.println("0. Undo last action\n");
+            System.out.println("\n0. Undo last action");
         }
+    }
+
+    public int getUserInput() {
+        int input = Integer.parseInt(console.readLine("\nChoose option: "));
+        return input;
+    }
+
+    public int executeOption(int option){
+        switch (option) {
+            case 0:
+                undo();
+                break;
+            case 1:
+                executeCommand(new AddPlaneCommand(airline));
+                break;
+            case 2:
+                executeCommand(new RemovePlaneCommand(airline));
+                break;
+            case 3:
+                executeCommand(new ShowPlanesCommand(airline));
+                break;
+            case 4:
+                executeCommand(new SortPlanesCommand(airline));
+                break;
+            case 5:
+                executeCommand(new CalculatePriceCommand(airline));
+                break;
+            case 6:
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected value: " + option);
+        }
+        return option;
     }
 
     public void run(){
         while (true) {
             showMenu(mainOptions);
-            int choice = Integer.parseInt(console.readLine());
-            switch (choice) {
-                case 0:
-                    undo();
-                    break;
-                case 1:
-                    executeCommand(new AddPlaneCommand(airline));
-                    break;
-                case 2:
-                    executeCommand(new RemovePlaneCommand(airline));
-                    break;
-                case 3:
-                    executeCommand(new ShowPlanesCommand(airline));
-                    break;
-                // case 4:
-                //     executeCommand(new ShowPlanesCommand(airline));
-                //     break;
-                case 5:
-                    executeCommand(new CalculatePriceCommand(airline));
-                    break;
-                case 6:
-                    System.exit(0);
-                    break;
-
+            int option = executeOption(getUserInput());
+            if(option == 6){
+                break;
             }
         }
-
+        System.exit(0);
     }
 
     private void executeCommand(Command command) {

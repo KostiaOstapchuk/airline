@@ -15,11 +15,12 @@ public class AddPlaneCommand extends Command {
     @Override
     public boolean execute() {
         System.out.println("Enter plane type: ");
-        System.out.println("1. Airliner\n2. Cargo plane\n3. Private Jet");
+        System.out.println("1. Airliner\n2. Cargo plane\n3. Private Jet\n");
         int coice = Integer.parseInt(console.readLine());
-        System.out.println("Choose option: ");
+        System.out.println("\nChoose option: ");
         System.out.println("1. Default plane\n2. Custom plane");
         int option = Integer.parseInt(console.readLine());
+        System.out.println("");
         switch(option){
             case 1:
                 switch(coice){
@@ -72,8 +73,6 @@ public class AddPlaneCommand extends Command {
                 System.out.println("Invalid choice");
                 return false;
         }
-
-
         return true;
     }
 
