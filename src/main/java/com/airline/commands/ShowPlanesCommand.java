@@ -28,10 +28,12 @@ public class ShowPlanesCommand extends Command {
         for (int i = 0; i < parameters.length; i++) {
             System.out.println(i+1 + ". " + parameters[i]);
         }
-        int choice = Integer.parseInt(console.readLine());
+        int choice = Integer.parseInt(console.readLine("\n"));
         float lowerBound, upperBound;
+        System.out.println(' ');
         lowerBound = Float.parseFloat(console.readLine("Lower bound: "));
         upperBound = Float.parseFloat(console.readLine("Upper bound: "));
+        System.out.println(' ');
         switch (choice) {
             case 1:
                 airline.getPlanes().stream()
@@ -70,12 +72,11 @@ public class ShowPlanesCommand extends Command {
         for (int i = 0; i < options.length; i++) {
             System.out.println(i+1 + ". " + options[i]);
         }
-        int choice = Integer.parseInt(console.readLine());
+        int choice = Integer.parseInt(console.readLine("\n"));
         switch (choice) {
             case 1:
-                for (Plane plane : airline.getPlanes()) {
-                    System.out.println(plane);
-                }
+                System.out.println("\nAll planes:");
+                airline.getPlanes().forEach(plane -> System.out.println(plane.toString()));
                 System.out.println(' ');
                 break;
             case 2:

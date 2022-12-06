@@ -28,13 +28,15 @@ public class SortPlanesCommand extends Command {
         for (int i = 0; i < options.length; i++) {
             System.out.println(i+1 + ". " + options[i]);
         }
-        int choice = Integer.parseInt(console.readLine());
+        int choice = Integer.parseInt(console.readLine("\n"));
         switch (choice) {
             case 1:
                 airline.sortPlanesById();
+                System.out.println("\nPlanes sorted by ID\n");
                 break;
             case 2:
                 airline.sortPlanesByRange();
+                System.out.println("\nPlanes sorted by range\n");
                 break;
             default:
                 System.out.println("Invalid option");
@@ -46,5 +48,6 @@ public class SortPlanesCommand extends Command {
     @Override
     public void undo() {
         airline.setPlanes(backup);
+        System.out.println("\nUndo sort\n");
     }
 }

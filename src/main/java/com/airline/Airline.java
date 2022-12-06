@@ -46,7 +46,7 @@ public class Airline {
     }
 
     public void setPlanes(ArrayList<Plane> planes) {
-        this.planes = new ArrayList<>(planes);
+        this.planes = new ArrayList<Plane>(planes);
     }
 
     public ArrayList<Plane> getPlanes() {

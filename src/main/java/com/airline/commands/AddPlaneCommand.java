@@ -18,7 +18,7 @@ public class AddPlaneCommand extends Command {
         System.out.println("1. Airliner\n2. Cargo plane\n3. Private Jet\n");
         int coice = Integer.parseInt(console.readLine());
         System.out.println("\nChoose option: ");
-        System.out.println("1. Default plane\n2. Custom plane");
+        System.out.println("1. Default plane\n2. Custom plane\n");
         int option = Integer.parseInt(console.readLine());
         System.out.println("");
         switch(option){
@@ -39,28 +39,23 @@ public class AddPlaneCommand extends Command {
                 }
                 plane.setId(airline.getPlanes().size());
                 airline.addPlane(plane);
+                System.out.println("Plane:\n" + plane + "\nadded\n");
                 break;
             case 2:
-                System.out.println("Enter plane model: ");
-                String model = console.readLine();
-                System.out.println("Enter load capacity: ");
-                int loadCapacity = Integer.parseInt(console.readLine());
-                System.out.println("Enter fuel consumption: ");
-                int fuelConsumption = Integer.parseInt(console.readLine());
-                System.out.println("Enter range: ");
-                int range = Integer.parseInt(console.readLine());
+                String model = console.readLine("Enter plane model: ");
+                int loadCapacity = Integer.parseInt(console.readLine("Enter load capacity: "));
+                int fuelConsumption = Integer.parseInt(console.readLine("Enter fuel consumption: "));
+                int range = Integer.parseInt(console.readLine("Enter range: "));
                 switch(coice){
                     case 1:
-                        System.out.println("Enter passenger capacity: ");
-                        int passengerCapacity = Integer.parseInt(console.readLine());
+                        int passengerCapacity = Integer.parseInt(console.readLine("Enter passenger capacity: "));
                         plane = new Airliner(airline.getPlanes().size(), model, passengerCapacity, loadCapacity, fuelConsumption, range);
                         break;
                     case 2:
                         plane = new CargoPlane(airline.getPlanes().size(), model, loadCapacity, fuelConsumption, range);
                         break;
                     case 3:
-                        System.out.println("Enter speed: ");
-                        int speed = Integer.parseInt(console.readLine());
+                        int speed = Integer.parseInt(console.readLine("Enter speed: "));
                         plane = new PrivateJet(airline.getPlanes().size(), model, loadCapacity, fuelConsumption, range, speed);
                         break;
                     default:
@@ -68,6 +63,7 @@ public class AddPlaneCommand extends Command {
                         return false;
                 }
                 airline.addPlane(plane);
+                System.out.println("\nPlane:\n" + plane + "\nadded\n");
                 break;
             default:
                 System.out.println("Invalid choice");

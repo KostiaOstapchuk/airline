@@ -22,7 +22,7 @@ public class App {
             "6. Exit"
     };
 
-    public void showMenu(String[] options) {
+    private void showMenu(String[] options) {
         for (String option : options) {
             System.out.println(option);
         }
@@ -31,7 +31,7 @@ public class App {
         }
     }
 
-    public int getUserInput() {
+    private int getUserInput() {
         int input = Integer.parseInt(console.readLine("\nChoose option: "));
         return input;
     }
