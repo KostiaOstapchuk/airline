@@ -1,1 +1,4 @@
+.DS_Store
 .settings
+target/airline-1.4.jar
+target/surefire-reports/
