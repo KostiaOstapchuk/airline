@@ -1,4 +1,6 @@
 .DS_Store
 .settings
+.vscode
+.idea
 target/airline-1.4.jar
 target/surefire-reports/
