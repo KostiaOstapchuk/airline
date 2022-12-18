@@ -97,16 +97,16 @@ public class AddPlaneWindow extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addButton){
-            ArrayList<String> params = new ArrayList<>();
-            params.add(optionMenu.getSelectedItem().toString());
-            params.add(modelField.getText());
-            params.add(loadCapacityField.getText());
-            params.add(passengerCapacityField.getText());
-            params.add(fuelConsumptionField.getText());
-            params.add(rangeField.getText());
-            params.add(speedField.getText());
-
             try{
+                ArrayList<String> params = new ArrayList<>();
+                params.add(optionMenu.getSelectedItem().toString());
+                params.add(modelField.getText());
+                params.add(loadCapacityField.getText());
+                params.add(passengerCapacityField.getText());
+                params.add(fuelConsumptionField.getText());
+                params.add(rangeField.getText());
+                params.add(speedField.getText());
+    
                 String sql = "INSERT INTO Planes (plane_id, plane_model, plane_load_capacity, plane_passenger_capacity, plane_fuel_consumption, plane_range, plane_speed, plane_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setInt(1, airline.getPlanes().size() + 1);
@@ -132,11 +132,12 @@ public class AddPlaneWindow extends JFrame implements ActionListener{
                 statement.executeUpdate();
     
                 new AddPlaneCommand(airline).execute(params);
+                JOptionPane.showMessageDialog(null, "Plane added");
+                dispose();
             } catch (Exception ex){
                 ex.printStackTrace();
             }
 
-            dispose();
         }
     }
 }

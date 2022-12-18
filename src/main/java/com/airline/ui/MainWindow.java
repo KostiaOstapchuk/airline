@@ -152,7 +152,7 @@ public class MainWindow extends JFrame implements ActionListener {
             AddPlaneWindow addPlaneWindow = new AddPlaneWindow(airline, connection);
         }
         if(e.getSource() == button2){
-            RemovePlaneWindow removePlaneWindow = new RemovePlaneWindow(connection);
+            RemovePlaneWindow removePlaneWindow = new RemovePlaneWindow(airline, connection);
         }
         if(e.getSource() == button3){
             try {

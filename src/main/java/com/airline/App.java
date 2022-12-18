@@ -22,7 +22,7 @@ public class App {
     public void init(){
         String url = "jdbc:mysql://localhost:3306/airline?autoReconnect=true&useSSL=false";
         String username = "root";
-        String password = "";
+        String password = "donbass10kv";
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection(url, username, password);

@@ -3,22 +3,30 @@ package com.airline.ui;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.awt.*;
 
+import com.airline.Airline;
+
 public class RemovePlaneWindow extends JFrame implements ActionListener{
     
     JButton remButton = new JButton("Remove");
+    Airline airline;
+    Connection connection;
+    JComboBox<Integer> optionMenu;
 
-    public RemovePlaneWindow(Connection connection) {
+    public RemovePlaneWindow(Airline airline, Connection connection) {
         super("Remove plane");
-        setSize(200, 200);
+        this.airline = airline;
+        this.connection = connection;
+        setSize(200, 100);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new FlowLayout(FlowLayout.LEFT));
-        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        DefaultComboBoxModel<Integer> model = new DefaultComboBoxModel<>();
 
         try {
             String sql = "SELECT plane_id FROM Planes";
@@ -26,19 +34,19 @@ public class RemovePlaneWindow extends JFrame implements ActionListener{
             ResultSet resultSet = statement.executeQuery(sql);
             
             while (resultSet.next()) {
-                model.addElement(resultSet.getString("plane_id"));
+                model.addElement(resultSet.getInt("plane_id"));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         
-        JComboBox<String> optionMenu = new JComboBox<>(model);
+        optionMenu = new JComboBox<>(model);
         JLabel typeLabel = new JLabel("ID");
         
-        add(optionMenu);
-
         remButton.setPreferredSize(new Dimension(100, 30));
-        
+        remButton.addActionListener(this);
+
+        add(optionMenu);
         add(optionMenu);
         add(typeLabel);
         add(remButton);
@@ -49,7 +57,17 @@ public class RemovePlaneWindow extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == remButton){
-            //todo
+            try {
+                String sql = "DELETE FROM Planes WHERE plane_id = ?";
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setInt(1, Integer.parseInt(optionMenu.getSelectedItem().toString()));
+                statement.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Plane removed");
+                dispose();
+                
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }
