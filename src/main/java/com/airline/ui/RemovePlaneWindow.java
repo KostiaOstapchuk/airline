@@ -6,9 +6,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.awt.*;
 
 import com.airline.Airline;
+import com.airline.commands.RemovePlaneCommand;
 
 public class RemovePlaneWindow extends JFrame implements ActionListener{
     
@@ -60,9 +62,13 @@ public class RemovePlaneWindow extends JFrame implements ActionListener{
             try {
                 String sql = "DELETE FROM Planes WHERE plane_id = ?";
                 PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setInt(1, Integer.parseInt(optionMenu.getSelectedItem().toString()));
+                int id = Integer.parseInt(optionMenu.getSelectedItem().toString());
+                statement.setInt(1, id);
                 statement.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Plane removed");
+                ArrayList<String> param = new ArrayList<>();
+                param.add(Integer.toString(id));
+                new RemovePlaneCommand(airline).execute(param);
                 dispose();
                 
             } catch (Exception ex) {

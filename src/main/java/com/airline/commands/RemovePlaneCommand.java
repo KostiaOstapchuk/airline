@@ -13,6 +13,9 @@ public class RemovePlaneCommand extends Command {
 
     @Override
     public boolean execute(ArrayList<String> params) {
+        int id = Integer.parseInt(params.get(0));
+        plane = airline.getPlane(id);
+        airline.removePlane(plane);
         return true;
     }
 
