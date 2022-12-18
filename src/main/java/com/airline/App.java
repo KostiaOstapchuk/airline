@@ -2,6 +2,11 @@ package com.airline;
 import com.airline.commands.*;
 import com.airline.planes.*;
 import java.io.Console;
+import com.airline.ui.MainWindow;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class App {
     private Airline airline;
@@ -13,66 +18,19 @@ public class App {
         this.airline = airline;
     }
 
-    private final String[] mainOptions = {
-            "1. Add plane",
-            "2. Remove plane",
-            "3. Show planes",
-            "4. Sort planes",
-            "5. Calculate price",
-            "6. Exit"
-    };
-
-    private void showMenu(String[] options) {
-        for (String option : options) {
-            System.out.println(option);
+    public void init(){
+        String url = "jdbc:mysql://localhost:3306/airline?autoReconnect=true&useSSL=false";
+        String username = "root";
+        String password = "donbass10kv";
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(url, username, password);
+            MainWindow mainWindow = new MainWindow(airline, connection);
+            // connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if(!history.isEmpty()){
-            System.out.println("\n0. Undo last action");
-        }
-    }
 
-    private int getUserInput() {
-        int input = Integer.parseInt(console.readLine("\nChoose option: "));
-        return input;
-    }
-
-    public int executeOption(int option){
-        switch (option) {
-            case 0:
-                undo();
-                break;
-            case 1:
-                executeCommand(new AddPlaneCommand(airline));
-                break;
-            case 2:
-                executeCommand(new RemovePlaneCommand(airline));
-                break;
-            case 3:
-                executeCommand(new ShowPlanesCommand(airline));
-                break;
-            case 4:
-                executeCommand(new SortPlanesCommand(airline));
-                break;
-            case 5:
-                executeCommand(new CalculatePriceCommand(airline));
-                break;
-            case 6:
-                break;
-            default:
-                throw new IllegalArgumentException("Unexpected value: " + option);
-        }
-        return option;
-    }
-
-    public void run(){
-        while (true) {
-            showMenu(mainOptions);
-            int option = executeOption(getUserInput());
-            if(option == 6){
-                break;
-            }
-        }
-        System.exit(0);
     }
 
     private void executeCommand(Command command) {

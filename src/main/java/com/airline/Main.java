@@ -6,6 +6,6 @@ import com.airline.planes.*;
 public class Main {
     public static void main( String[] args ){
         App app = new App(new Airline("Alpha"));
-        app.run();
+        app.init();
     }
 }
