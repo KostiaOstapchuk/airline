@@ -7,14 +7,43 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.awt.*;
 
+import com.airline.Airline;
+import com.airline.commands.CalculatePriceCommand;
+import java.util.ArrayList;
+
 public class CalculatePriceWindow extends JFrame implements ActionListener{
     
+    Airline airline;
+
     JButton calcButton = new JButton("Calculate");
     JLabel priceLabel = new JLabel("Price:");
+    JComboBox<String> optionMenu;
 
-    public CalculatePriceWindow(Connection connection) {
+    JLabel idLabel = new JLabel("Plane ID   ");
+
+    JTextField distanceField = new JTextField(20);
+    JLabel distanceLabel = new JLabel("Flight distance");
+
+    JComboBox<String> classOptions = new JComboBox<>(new String[]{"Economy", "Business"});
+    JLabel classLabel = new JLabel("Flight class");
+
+    JTextField checkInBags = new JTextField(20);
+    JLabel checkInBagsLabel = new JLabel("Check-in bags");
+
+    JTextField packages = new JTextField(20);
+    JLabel packagesLabel = new JLabel("Packages");
+
+    JTextField pallets = new JTextField(20);
+    JLabel palletsLabel = new JLabel("Pallets");
+
+    JTextField containers = new JTextField(20);
+    JLabel containersLabel = new JLabel("Containers");
+    
+
+    public CalculatePriceWindow(Airline airline, Connection connection) {
 
         super("Calculate Pirce");
+        this.airline = airline;
         setSize(400, 300);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -36,26 +65,7 @@ public class CalculatePriceWindow extends JFrame implements ActionListener{
             e.printStackTrace();
         }
         
-        JComboBox<String> optionMenu = new JComboBox<>(model);
-        JLabel idLabel = new JLabel("Plane ID   ");
-
-        JTextField distanceField = new JTextField(20);
-        JLabel distanceLabel = new JLabel("Flight distance");
-
-        JComboBox<String> classOptions = new JComboBox<>(new String[]{"Economy", "Business"});
-        JLabel classLabel = new JLabel("Flight class");
-
-        JTextField checkInBags = new JTextField(20);
-        JLabel checkInBagsLabel = new JLabel("Check-in bags");
-
-        JTextField packages = new JTextField(20);
-        JLabel packagesLabel = new JLabel("Packages");
-
-        JTextField pallets = new JTextField(20);
-        JLabel palletsLabel = new JLabel("Pallets");
-
-        JTextField containers = new JTextField(20);
-        JLabel containersLabel = new JLabel("Containers");
+        optionMenu = new JComboBox<>(model);
 
         add(optionMenu);
         add(idLabel);
@@ -80,7 +90,17 @@ public class CalculatePriceWindow extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == calcButton){
-            priceLabel.setText("Price: 1180$");
+            int plane_id = Integer.parseInt(optionMenu.getSelectedItem().toString());
+            ArrayList<String> params = new ArrayList<>();
+            params.add(distanceField.getText());
+            params.add(classOptions.getSelectedItem().toString());
+            params.add(checkInBags.getText());
+            params.add(packages.getText());
+            params.add(pallets.getText());
+            params.add(containers.getText());
+
+            float price = airline.getPlane(plane_id).flightPrice(params);
+            priceLabel.setText("Price: " + price + " $");
         }
     }
 }

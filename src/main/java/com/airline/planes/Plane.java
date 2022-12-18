@@ -1,4 +1,6 @@
 package com.airline.planes;
+import java.util.ArrayList;
+
 import com.airline.UserInput;
 
 public abstract class Plane {
@@ -44,8 +46,7 @@ public abstract class Plane {
     
     public abstract int getPassengerCapacity();
     public abstract String getType();
-    public abstract UserInput takeUserInput();
-    public abstract float flightPrice(UserInput userInput);
+    public abstract float flightPrice(ArrayList<String> params);
 
     @Override
     public String toString() {

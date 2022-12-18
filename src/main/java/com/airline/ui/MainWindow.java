@@ -175,7 +175,7 @@ public class MainWindow extends JFrame implements ActionListener {
             }
         }
         if(e.getSource() == button4){
-            CalculatePriceWindow calculatePriceWindow = new CalculatePriceWindow(connection);
+            CalculatePriceWindow calculatePriceWindow = new CalculatePriceWindow(airline, connection);
         }
         if(e.getSource() == button5){
             try {

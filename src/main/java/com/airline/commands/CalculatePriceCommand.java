@@ -28,18 +28,18 @@ public class CalculatePriceCommand extends Command {
 
     @Override
     public boolean execute(ArrayList<String> params) {
-        System.out.println("Choose flight type:");
-        for (int i = 0; i < options.length; i++) {
-            System.out.println(i + 1 + ". " + options[i]);
-        }
-        int choice = Integer.parseInt(console.readLine());
-        printPlanesByType(options[choice - 1]);
+        // System.out.println("Choose flight type:");
+        // for (int i = 0; i < options.length; i++) {
+        //     System.out.println(i + 1 + ". " + options[i]);
+        // }
+        // int choice = Integer.parseInt(console.readLine());
+        // printPlanesByType(options[choice - 1]);
         
-        int id = Integer.parseInt(console.readLine("Enter plane id: "));
+        // int id = Integer.parseInt(console.readLine("Enter plane id: "));
         
-        Plane plane = airline.getPlane(id);
-        UserInput userInput = plane.takeUserInput();
-        plane.flightPrice(userInput);
+        // Plane plane = airline.getPlane(id);
+        // // UserInput userInput = plane.takeUserInput();
+        // // plane.flightPrice(userInput);
 
         return false;
     }

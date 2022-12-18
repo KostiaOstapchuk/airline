@@ -1,6 +1,8 @@
 package com.airline.planes;
 import java.io.Console;
 import java.lang.Math;
+import java.util.ArrayList;
+
 import com.airline.UserInput;
 
 public class Airliner extends Plane{
@@ -29,53 +31,16 @@ public class Airliner extends Plane{
         return passengerCapacity;
     }
 
-    public UserInput takeUserInput(){
-        int distance;
-        String flightClass;
-        int checkInBags;
-        int additionalWeight;
-        boolean validInput = true;
-        UserInput userInput = new UserInput();
-        do{
-            validInput = true;
-            distance = Integer.parseInt(console.readLine("Enter the distance of the flight in km: "));
-            if(distance > range){
-                System.out.println("The distance entered is greater than the range of the plane. Please enter a valid distance.");
-                validInput = false;
-                continue;
-            } 
-            flightClass = console.readLine("Enter the flight class (Economy, Business): ");
-            if(!flightClass.equals("Economy") && !flightClass.equals("Business")){
-                System.out.println("The flight class entered is invalid. Please enter a valid flight class.");
-                validInput = false;
-                continue;
-            }
-            checkInBags = Integer.parseInt(console.readLine("Enter the amount of check-in bags (30$ per bag, up to " + checkInBagsAllowed + " bags): "));
-            if(checkInBags > checkInBagsAllowed){
-                System.out.println("The amount of check-in bags entered is greater than the allowed amount. Please enter a valid amount.");
-                validInput = false;
-                continue;
-            }
-            additionalWeight = Integer.parseInt(console.readLine("Weight of any additional baggage / special equipment (2$ per kg, up to " + (allowedWeightPerPassenger - BagWeight * checkInBagsAllowed) + " kg): "));
-            if(additionalWeight > (allowedWeightPerPassenger - BagWeight * checkInBagsAllowed)){
-                System.out.println("The weight of additional baggage / special equipment entered is greater than the allowed amount. Please enter a valid amount.");
-                validInput = false;
-                continue;
-            }
-            userInput.setDistance(distance);
-            userInput.setFlightClass(flightClass);
-            userInput.setCheckInBags(checkInBags);
-            userInput.setAdditionalWeight(additionalWeight);
-        }while(!validInput);
-        return userInput;
-    }
 
-    public float flightPrice(UserInput userInput) {
-        float price = ((userInput.getDistance() * fuelConsumption * fuelPrice) / (passengerCapacity / 2));
+    public float flightPrice(ArrayList<String> params){
+        int distance = Integer.parseInt(params.get(0));
+        String flightClass = params.get(1);
+        int checkInBags = Integer.parseInt(params.get(2));
+        float price = ((distance * fuelConsumption * fuelPrice) / (passengerCapacity / 2));
         if(price < minFlightPrice){
             price = minFlightPrice;
         }
-        switch(userInput.getFlightClass()){
+        switch(flightClass){
             case "Economy":
                 break;
             case "Business":
@@ -86,8 +51,7 @@ public class Airliner extends Plane{
         }
         float ticketPrice = price;
         float airportTax = price * 0.6f;
-        float baggagePrice = userInput.getCheckInBags() * 30;
-        baggagePrice += userInput.getAdditionalWeight() * 2;
+        float baggagePrice = checkInBags * 30;
         price += baggagePrice;
         System.out.printf("\nTicket price: %.2f$\nAirport tax: %.2f$\nBaggage: %.2f$\nTotal price: %.2f$\n", ticketPrice, airportTax, baggagePrice, price);
         return price;

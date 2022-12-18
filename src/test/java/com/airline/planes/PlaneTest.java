@@ -51,30 +51,30 @@ public class PlaneTest {
         assertEquals(airliner.getId(), 2);
     }
 
-    @Test
-    public void testAirlinerFlightPrice() {
-        UserInput userInput = new UserInput();
-        userInput.setDistance(1000);
-        userInput.setFlightClass("Economy");
-        userInput.setCheckInBags(2);
-        userInput.setAdditionalWeight(100);
-        assertEquals(airliner.flightPrice(userInput), 432, 0.1);
-    }
+    // @Test
+    // public void testAirlinerFlightPrice() {
+    //     UserInput userInput = new UserInput();
+    //     userInput.setDistance(1000);
+    //     userInput.setFlightClass("Economy");
+    //     userInput.setCheckInBags(2);
+    //     userInput.setAdditionalWeight(100);
+    //     assertEquals(airliner.flightPrice(userInput), 432, 0.1);
+    // }
 
-    @Test
-    public void testCargoPlaneFlightPrice() {
-        UserInput userInput = new UserInput();
-        userInput.setDistance(1000);
-        userInput.setPackages(1);
-        userInput.setPallets(1);
-        userInput.setContainerWeight(100);
-        assertEquals(cargoPlane.flightPrice(userInput), 1180, 0.1);
-    }
+    // @Test
+    // public void testCargoPlaneFlightPrice() {
+    //     UserInput userInput = new UserInput();
+    //     userInput.setDistance(1000);
+    //     userInput.setPackages(1);
+    //     userInput.setPallets(1);
+    //     userInput.setContainerWeight(100);
+    //     assertEquals(cargoPlane.flightPrice(userInput), 1180, 0.1);
+    // }
 
-    @Test
-    public void testPrivateJetFlightPrice() {
-        UserInput userInput = new UserInput();
-        userInput.setDistance(1000);
-        assertEquals(privateJet.flightPrice(userInput), 6880, 0.1);
-    }
+    // @Test
+    // public void testPrivateJetFlightPrice() {
+    //     UserInput userInput = new UserInput();
+    //     userInput.setDistance(1000);
+    //     assertEquals(privateJet.flightPrice(userInput), 6880, 0.1);
+    // }
 }
