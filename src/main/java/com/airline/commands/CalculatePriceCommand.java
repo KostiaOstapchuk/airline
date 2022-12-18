@@ -4,6 +4,7 @@ import com.airline.Airline;
 import com.airline.planes.*;
 import java.io.Console;
 import com.airline.UserInput;
+import java.util.ArrayList;
 
 public class CalculatePriceCommand extends Command {
     private Console console = System.console();
@@ -26,7 +27,7 @@ public class CalculatePriceCommand extends Command {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute(ArrayList<String> params) {
         System.out.println("Choose flight type:");
         for (int i = 0; i < options.length; i++) {
             System.out.println(i + 1 + ". " + options[i]);

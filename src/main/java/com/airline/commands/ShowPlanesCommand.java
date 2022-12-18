@@ -3,6 +3,7 @@ package com.airline.commands;
 import com.airline.Airline;
 import com.airline.planes.*;
 import java.io.Console;
+import java.util.ArrayList;
 
 public class ShowPlanesCommand extends Command {
 
@@ -63,7 +64,7 @@ public class ShowPlanesCommand extends Command {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute(ArrayList<String> params) {
         if(airline.getPlanes().size() == 0){
             System.out.println("\nNo planes to show\n");
             return false;

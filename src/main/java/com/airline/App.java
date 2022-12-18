@@ -7,15 +7,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class App {
-    private Airline airline;
+    private static Airline airline;
     private Command command;
     private CommandHistory history = new CommandHistory();
     private Console console = System.console();
 
     App(Airline airline) {
-        this.airline = airline;
+        App.airline = airline;
     }
 
     public void init(){
@@ -33,8 +34,8 @@ public class App {
 
     }
 
-    private void executeCommand(Command command) {
-        if (command.execute()) {
+    private void executeCommand(Command command, ArrayList<String> params) {
+        if (command.execute(params)) {
             history.push(command);
         }
     }
